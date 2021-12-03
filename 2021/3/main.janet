@@ -2,13 +2,13 @@
   (slice
     (map (fn [s] (map scan-number (map string/from-bytes (string/bytes s))))
          (string/split "\n" (file/read (file/open "input") :all)))
-     0
-     -2))
+    0
+    -2))
 
 (defn array_to_number [arr]
   (var d 0)
   (var i (- (length arr) 1))
-  (each factor arr 
+  (each factor arr
     (+= d (* factor (math/exp2 i)))
     (-- i))
   d)
@@ -33,7 +33,7 @@
 (print (string "  Solution: " (* gamma epsilon)))
 
 (var possible_oxygen_ratings data)
-(loop [i :range [0 (length (data 0))] :until (= 1 (length possible_oxygen_ratings))] 
+(loop [i :range [0 (length (data 0))] :until (= 1 (length possible_oxygen_ratings))]
   (var ones_at_i 0)
   (each element possible_oxygen_ratings (if (= (element i) 1) (++ ones_at_i)))
   (def searched_bit_value (if (>= ones_at_i (/ (length possible_oxygen_ratings) 2)) 1 0))
@@ -41,7 +41,7 @@
 (def oxygen_generator_rating (array_to_number (possible_oxygen_ratings 0)))
 
 (var possible_scrubber_ratings data)
-(loop [i :range [0 (length (data 0))] :until (= 1 (length possible_scrubber_ratings))] 
+(loop [i :range [0 (length (data 0))] :until (= 1 (length possible_scrubber_ratings))]
   (var ones_at_i 0)
   (each element possible_scrubber_ratings (if (= (element i) 1) (++ ones_at_i)))
   (def searched_bit_value (if (>= ones_at_i (/ (length possible_scrubber_ratings) 2)) 0 1))
