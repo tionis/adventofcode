@@ -3,13 +3,19 @@
                         x2)) 
        (map (fn [x1] (string/split " -> " x1)) 
             (string/split "\n" (string/trim (file/read (file/open "input") :all))))))
-(var grid (array/new-filled 2 (array/new-filled 1000 (array/new-filled 1000 0))))
+(var grid (array/new-filled 2 (array/new-filled 20 (array/new-filled 20 0))))
 
 (defn sign [x]
   (cond
     (> x 0)  1
     (= x 0)  0
     (< x 0) -1))
+
+(defn print-grid[grid-input] 
+  (each line grid-input
+    (each point line 
+      (prin (string/trim (string (if (= point 0) "." point)" "))))
+    (print)))
 
 (defmacro ++in [variable arr] ~(put-in ,variable ,arr (+ (get-in ,variable ,arr) 1)))
 
@@ -28,9 +34,16 @@
   (def dy (sign (- Y y)))
   (while (and (not (= x (+ X dx))) 
               (not (= y (+ Y dy))))
-    (++in grid [(* (math/abs dx) (math/abs dy)) x y])
+    (print x)
+    (update-in grid [(* (math/abs dx) (math/abs dy)) x y] (fn [x] (+ x 1)))
+    #(++in grid [(* (math/abs dx) (math/abs dy)) x y])
     (+= x dx)
     (+= y dy)))
+
+(print "============== 0 ==============")
+(print-grid (grid 0))
+(print "============== 1 ==============")
+(print-grid (grid 1))
 
 (print 
   (string "Part 1: "
