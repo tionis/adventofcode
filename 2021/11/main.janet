@@ -1,8 +1,3 @@
-(array/insert module/paths 0
-              [(string (os/getenv "HOME") "/.config/fish/deps/janet/jpm_tree/lib/:all:.janet") :source]
-              [(string (os/getenv "HOME") "/.config/fish/deps/janet/jpm_tree/lib/:all::native:") :native])
-(import json)
-
 (var grid @{})
 (var x 0)
 (each line (map (fn [s] (map scan-number (map string/from-bytes (string/bytes s)))) (string/split "\n" (string/trim (slurp "input"))))
@@ -42,8 +37,6 @@
   (loop [k :keys grid] (put grid k (+ (get grid k) 1)))
   (var flashing @[])
   (loop [k :keys grid] (if (> (get grid k) 9) (array/push flashing k)))
-
-  (print (json/encode flashing))
 
   (while (> (length flashing) 0)
     (def f (array/pop flashing))
