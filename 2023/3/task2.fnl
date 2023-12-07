@@ -39,7 +39,7 @@
                         [(+ x 1) (- y 1)]
                         [(+ x 1) y]
                         [(+ x 1) (+ y 1)]])]
-    (if (is_symbol (. grid (. coords 1) (. coords 2)))
+    (if (= (. grid (. coords 1) (. coords 2)) "*")
         (table.insert out coords)))
   (if (= (length out) 0)
       false
@@ -55,8 +55,14 @@
         (if they_touching?
           (each [_ coords (ipairs they_touching?)]
             (tset touching_coords coords true)))
+        (if they_touching?
+          (io.write (color (.. "%{red}" cell "%{reset} ")))
+          (io.write cell " "))
         (set number (.. number cell)))
       (do
+        (if (= cell "*")
+          (io.write (color (.. "%{yellow}" cell "%{reset} ")))
+          (io.write cell " "))
         (if (and (not= number "")
                  (not= (next touching_coords) nil))
           (each [coord _ (pairs touching_coords)]
@@ -65,11 +71,14 @@
             (tset touchenings key number true)))
         (set touching_coords [])
         (set number "")
-        ))))
+        )))
+  (print))
     ;;(if (> (length touching_coords) 0)
     ;;  (io.write (color (.. "%{red}" cell "%{reset} ")))
     ;;  (io.write cell " ")))
   ;;(print))
+
+;; (print (inspect touchenings))
 
 (var result 0)
 (each [_ numbers (pairs touchenings)]
